@@ -1,0 +1,42 @@
+name: Deploy Fix Zone WooCommerce MCP
+
+on:
+  push:
+    paths:
+      - '.agent/mcp/woocommerce-mcp/**'
+      - '.github/workflows/deploy-fz-mcp.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          envs: WORDPRESS_SITE_URL,WOOCOMMERCE_CONSUMER_KEY,WOOCOMMERCE_CONSUMER_SECRET,WORDPRESS_USERNAME,WORDPRESS_PASSWORD
+          script: |
+            export WORDPRESS_SITE_URL="${{ secrets.WORDPRESS_SITE_URL }}"
+            export WOOCOMMERCE_CONSUMER_KEY="${{ secrets.WOOCOMMERCE_CONSUMER_KEY }}"
+            export WOOCOMMERCE_CONSUMER_SECRET="${{ secrets.WOOCOMMERCE_CONSUMER_SECRET }}"
+            export WORDPRESS_USERNAME="${{ secrets.WORDPRESS_USERNAME }}"
+            export WORDPRESS_PASSWORD="${{ secrets.WORDPRESS_PASSWORD }}"
+            
+            DEPLOY_DIR=/home/deploy/laapak-projects/fz-woocommerce-mcp
+            REPO_URL=https://${{ secrets.GH_PAT }}@github.com/saifnasserer/FZ-Website-Agent-main.git
+
+            if [ ! -d "$DEPLOY_DIR/.git" ]; then
+              git clone $REPO_URL $DEPLOY_DIR
+            else
+              cd $DEPLOY_DIR
+              git fetch origin main
+              git reset --hard origin/main
+            fi
+
+            cd $DEPLOY_DIR/.agent/mcp/woocommerce-mcp
+            docker compose up -d --build fz-woocommerce-mcp

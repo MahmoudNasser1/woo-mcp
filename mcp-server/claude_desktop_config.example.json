@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "woocommerce": {
+      "command": "node",
+      "args": ["/absolute/path/to/woocommerce-mcp-server-main/build/index.js"],
+      "env": {
+        "WORDPRESS_SITE_URL": "https://your-site.com",
+        "WOOCOMMERCE_CONSUMER_KEY": "process.env.WOOCOMMERCE_CONSUMER_KEY",
+        "WOOCOMMERCE_CONSUMER_SECRET": "process.env.WOOCOMMERCE_CONSUMER_SECRET",
+        "WORDPRESS_USERNAME": "your-username",
+        "WORDPRESS_PASSWORD": "xxxx xxxx xxxx xxxx xxxx xxxx"
+      }
+    }
+  }
+}
+
