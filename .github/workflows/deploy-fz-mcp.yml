@@ -28,14 +28,14 @@ jobs:
             export WORDPRESS_PASSWORD="${{ secrets.WORDPRESS_PASSWORD }}"
             
             DEPLOY_DIR=/home/deploy/laapak-projects/fz-woocommerce-mcp
-            REPO_URL=https://${{ secrets.GH_PAT }}@github.com/saifnasserer/FZ-Website-Agent-main.git
+            REPO_URL=https://${{ secrets.GH_PAT }}@github.com/MahmoudNasser1/woo-mcp.git
 
             if [ ! -d "$DEPLOY_DIR/.git" ]; then
               git clone $REPO_URL $DEPLOY_DIR
             else
               cd $DEPLOY_DIR
-              git fetch origin main
-              git reset --hard origin/main
+              git fetch origin master
+              git reset --hard origin/master
             fi
 
             cd $DEPLOY_DIR/.agent/mcp/woocommerce-mcp
