@@ -248,7 +248,7 @@ function createServer() {
 // Session store: maps sessionId -> { transport, server }
 const transports = new Map();
 
-app.get("/mcp/sse", async (req, res) => {
+app.get("/sse", async (req, res) => {
     console.log("New SSE connection");
     // Create a fresh server instance for this connection — prevents the
     // 'Already connected to a transport' error on concurrent connections.
