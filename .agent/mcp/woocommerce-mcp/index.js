@@ -279,3 +279,4 @@ const PORT = process.env.PORT || 3010;
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`WooCommerce MCP server running on port ${PORT}`);
 });
+// Triggering deploy
