@@ -110,7 +110,16 @@ function createServer() {
                             categories: { type: "array", items: { type: "object", properties: { id: { type: "number" } } } },
                             images: { type: "array", items: { type: "object", properties: { src: { type: "string" } } } },
                             sku: { type: "string" },
-                            meta_data: { type: "array" }
+                            meta_data: { 
+                                type: "array", 
+                                items: { 
+                                    type: "object",
+                                    properties: {
+                                        key: { type: "string" },
+                                        value: { type: "string" }
+                                    }
+                                }
+                            }
                         },
                         required: ["name", "regular_price"]
                     }
@@ -122,7 +131,11 @@ function createServer() {
                         type: "object",
                         properties: {
                             id: { type: "number" },
-                            data: { type: "object" }
+                            data: { 
+                                type: "object",
+                                additionalProperties: true,
+                                description: "Product data to update"
+                            }
                         },
                         required: ["id", "data"]
                     }
